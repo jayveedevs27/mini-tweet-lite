@@ -18,7 +18,7 @@ export default function Navbar() {
       <Link to="/" className="text-2xl poppins-bold">
         MiniTweet
       </Link>
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-10">
         <Link to="/profile">
           <div className="w-10 h-10 rounded-full overflow-clip">
             <img
@@ -31,7 +31,7 @@ export default function Navbar() {
         </Link>
         <button
           onClick={handleLogout}
-          className="flex items-center cursor-pointer"
+          className="flex items-center poppins-medium cursor-pointer"
         >
           <Logout />
           &nbsp; Logout
