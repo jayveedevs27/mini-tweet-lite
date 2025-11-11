@@ -35,18 +35,21 @@ export default function Register() {
         </h2>
 
         <form onSubmit={submit} className="space-y-3">
-          <input
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-            placeholder="Firstname"
-            className="w-full px-4 py-4 rounded-2xl text-base bg-gray-100"
-          />
-          <input
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            placeholder="Surname"
-            className="w-full px-4 py-4 rounded-2xl text-base bg-gray-100"
-          />
+          <div className="flex gap-4">
+            <input
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              placeholder="Firstname"
+              className="w-full px-4 py-4 rounded-2xl text-base bg-gray-100"
+            />
+            <input
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              placeholder="Surname"
+              className="w-full px-4 py-4 rounded-2xl text-base bg-gray-100"
+            />
+          </div>
+
           <input
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -73,10 +76,10 @@ export default function Register() {
           </div>
 
           <div className="block text-center text-sm text-gray-500 mt-10">
-              Have an account already?{" "}
-              <Link to="/login" className="text-black">
-                Log in
-              </Link>
+            Have an account already?{" "}
+            <Link to="/login" className="text-black">
+              Log in
+            </Link>
           </div>
         </form>
       </div>
