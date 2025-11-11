@@ -1,15 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import api from "../api";
 import Navbar from "../components/Navbar";
 import { useUser } from "../context/UserContext";
 
 export default function ProfilePage() {
-  const { user, setUser } = useUser();
+  const { user, setUser, updateUser } = useUser();
   const [password, setPassword] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
   const [preview, setPreview] = useState(null);
 
   const DEFAULT_AVATAR = import.meta.env.VITE_AVATAR || "/default-avatar.png";
+
+  useEffect(() => {
+    async function fetchUser() {
+      try {
+        await updateUser();
+      } catch (err) {
+        console.error("Failed to load profile:", err);
+      }
+    }
+    fetchUser();
+  }, []);
 
   if (!user)
     return (

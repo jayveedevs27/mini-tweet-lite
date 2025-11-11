@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import api from "../api";
+import { useUser } from "../context/UserContext";
 
 export default function Login() {
+  const { updateUser } = useUser();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -14,6 +16,7 @@ export default function Login() {
     try {
       const { data } = await api.post("/login", { email, password });
       localStorage.setItem("token", data.token);
+      await updateUser();
       navigate("/");
     } catch (err) {
       setError(err.response?.data?.message || "Login failed");

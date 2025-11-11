@@ -26,7 +26,7 @@ export default function TweetComposer({ onPosted }) {
   return (
     <div className="flex items-start gap-3 bg-white p-5 rounded-xl shadow mb-6">
       <div className="w-10 h-10 rounded-full overflow-clip">
-        <img src={user?.profile_picture_url} alt="Profile" />
+        <img src={user?.profile_picture_url ?? import.meta.env.VITE_DEFAULT_AVATAR} alt="Profile" />
       </div>
       <form aria-label="tweet composer form" onSubmit={submit} className="flex-1">
         <textarea

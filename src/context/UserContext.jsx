@@ -1,33 +1,42 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import api from "../api";
 
 const UserContext = createContext();
 
-export function UserProvider({ children }) {
+export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loadingUser, setLoadingUser] = useState(true);
 
   useEffect(() => {
-    async function fetchUser() {
+    const fetchUser = async () => {
       try {
         const { data } = await api.get("/profile");
         setUser(data);
-      } catch (err) {
-        console.error("Failed to load profile:", err);
-      } finally {
-        setLoadingUser(false);
+      } catch {
+        setUser(null);
       }
-    }
+    };
     fetchUser();
   }, []);
 
+  const updateUser = async () => {
+    try {
+      const { data } = await api.get("/profile");
+      setUser(data);
+    } catch {
+      setUser(null);
+    }
+  };
+
+  const logout = () => {
+    setUser(null);
+    localStorage.removeItem("token");
+  };
+
   return (
-    <UserContext.Provider value={{ user, setUser, loadingUser }}>
+    <UserContext.Provider value={{ user, setUser, updateUser, logout }}>
       {children}
     </UserContext.Provider>
   );
-}
+};
 
-export function useUser() {
-  return useContext(UserContext);
-}
+export const useUser = () => useContext(UserContext);
