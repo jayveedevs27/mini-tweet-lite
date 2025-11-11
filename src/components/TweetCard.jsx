@@ -5,16 +5,11 @@ import Heart from "./svg/Heart";
 
 export default function TweetCard({ tweet, onLikeToggle }) {
   const [liked, setLiked] = useState(tweet.liked_by_me || false);
-  const [likesCount, setLikesCount] = useState(tweet.likes_count || 0);
 
   async function toggle() {
     try {
       const { data } = await api.post(`/tweets/${tweet.id}/like`);
       setLiked(data.liked);
-      setLikesCount(
-        data.likes_count ??
-          (data.liked ? likesCount + 1 : Math.max(0, likesCount - 1))
-      );
       onLikeToggle && onLikeToggle(tweet.id, data.liked);
     } catch (err) {
       console.error(err);
@@ -25,12 +20,7 @@ export default function TweetCard({ tweet, onLikeToggle }) {
     <div className="bg-white p-5 rounded-xl shadow mb-4">
       <div className="flex items-start gap-3">
         <div className="w-10 h-10 rounded-full overflow-clip">
-          <img
-            src={
-              tweet.user.profile_picture_url
-            }
-            alt="Profile"
-          />
+          <img src={tweet.user.profile_picture_url} alt="Profile" />
         </div>
         <div className="flex-1">
           <div>
@@ -51,7 +41,9 @@ export default function TweetCard({ tweet, onLikeToggle }) {
         >
           {liked ? <Heart strokeColor="red" fillColor="red" /> : <Heart />}
 
-          <span className="inter-semibold text-sm">{likesCount}</span>
+          <span className="inter-semibold text-sm">
+            {tweet.likes_count || 0}
+          </span>
         </button>
       </div>
     </div>

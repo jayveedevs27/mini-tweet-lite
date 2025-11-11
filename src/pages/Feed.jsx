@@ -21,7 +21,14 @@ export default function Feed() {
 
   useEffect(() => {
     load();
+
+    const intervalId = setInterval(() => {
+      load();
+    }, 500);
+
+    return () => clearInterval(intervalId);
   }, []);
+
 
   return (
     <div className="min-h-screen">
