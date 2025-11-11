@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Logout from "./svg/Logout";
 
 export default function Navbar() {
 
@@ -19,7 +20,8 @@ export default function Navbar() {
         <Link to="/profile">
           Profile
         </Link>
-        <button onClick={handleLogout} className="cursor-pointer">
+        <button onClick={handleLogout} className="flex items-center cursor-pointer">
+          <Logout />&nbsp;
           Logout
         </button>
       </div>
