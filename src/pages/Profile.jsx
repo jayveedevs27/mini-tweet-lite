@@ -1,17 +1,20 @@
 import { useState } from "react";
-import axios from "axios";
-import Navbar from "../components/Navbar";
 import api from "../api";
+import Navbar from "../components/Navbar";
+import { useUser } from "../context/UserContext";
 
-export default function Profile() {
-  const [user, setUser] = useState({
-    name: "Jayvee Salango",
-    email: "jayvee@example.com",
-    profile_picture: import.meta.env.VITE_DEFAULT_PROFILE_PICTURE, // default
-  });
+export default function ProfilePage() {
+  const { user, setUser } = useUser();
+  const [password, setPassword] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
   const [preview, setPreview] = useState(null);
-  const [loading, setLoading] = useState(false);
+
+  const DEFAULT_AVATAR = import.meta.env.VITE_AVATAR || "/default-avatar.png";
+
+  if (!user)
+    return (
+      <div className="text-center mt-10 text-gray-600">Loading profile...</div>
+    );
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -27,55 +30,138 @@ export default function Profile() {
     formData.append("profile_picture", selectedFile);
 
     try {
-      setLoading(true);
-      const response = await api.post(
-        "/profile/upload",
-        formData,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-        }
-      );
-      setUser((prev) => ({ ...prev, profile_picture: response.data.url }));
+      const { data } = await api.post("/profile/upload", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      const returnedUrl =
+        data.profile_picture_url ??
+        data.url ??
+        data.path ??
+        data.profile_picture ??
+        null;
+
+      let normalizedUrl = returnedUrl;
+      if (returnedUrl && !/^https?:\/\//i.test(returnedUrl)) {
+        const apiBase = import.meta.env.VITE_API_URL || "http://localhost:8000";
+        normalizedUrl = returnedUrl.startsWith("/")
+          ? `${apiBase}${returnedUrl}`
+          : `${apiBase}/storage/${returnedUrl}`;
+      }
+
+      setUser((prev) => ({
+        ...prev,
+        profile_picture_url:
+          normalizedUrl || prev.profile_picture_url || DEFAULT_AVATAR,
+      }));
+
+      if (preview && preview.startsWith("blob:")) URL.revokeObjectURL(preview);
       setPreview(null);
       setSelectedFile(null);
     } catch (err) {
       console.error("Upload failed:", err);
+      alert("Failed to upload image.");
     } finally {
-      setLoading(false);
+
     }
   };
 
-    return (
-      <>
-        <Navbar />
-        <div className="max-w-md mx-auto mt-10 bg-white rounded-2xl shadow-lg p-6 text-center">
-          <h2 className="text-2xl font-semibold mb-4">Profile</h2>
-          <div className="flex flex-col items-center space-y-3">
+  const handleSaveProfile = async (e) => {
+    e.preventDefault();
+    try {
+      await api.put("/profile/update", {
+        first_name: user.first_name,
+        last_name: user.last_name,
+        email: user.email,
+        password: password || undefined,
+      });
+      alert("Profile updated successfully!");
+      setPassword("");
+    } catch (err) {
+      console.error("Update failed:", err);
+      alert("Failed to update profile.");
+    } finally {
+
+    }
+  };
+
+  const getAvatar = (previewUrl, userObj) =>
+    previewUrl || userObj?.profile_picture_url || DEFAULT_AVATAR;
+
+  return (
+    <>
+      <Navbar />
+      <div className="flex items-center justify-center h-screen bg-gray-50">
+        <div className="w-full max-w-lg bg-white p-8 rounded-2xl shadow-md">
+          <h2 className="text-center text-3xl font-bold mb-10 poppins-bold">
+            My Profile
+          </h2>
+
+          <div className="flex flex-col items-center mb-8">
             <img
-              src={preview || user.profile_picture}
+              src={getAvatar(preview, user)}
               alt="Profile"
               className="w-32 h-32 rounded-full object-cover border-2 border-gray-300"
             />
-            <h3 className="text-lg font-medium">{user.name}</h3>
-            <p className="text-gray-500">{user.email}</p>
 
-            <form onSubmit={handleUpload} className="mt-4 w-full">
+            <form onSubmit={handleUpload} className="mt-4 text-center flex flex-col items-center">
               <input
                 type="file"
                 accept="image/*"
                 onChange={handleFileChange}
-                className="block w-full text-sm text-gray-500 border rounded-lg cursor-pointer"
+                className="mt-2 px-4 py-2 text-xs text-center bg-gray-300 rounded-xl cursor-pointer"
               />
               <button
                 type="submit"
-                disabled={loading}
-                className="mt-3 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                className="mt-2 px-4 py-2 text-xs bg-black text-white rounded-2xl cursor-pointer"
               >
-                {loading ? "Uploading..." : "Upload New Picture"}
+                Upload Picture
               </button>
             </form>
           </div>
+
+          <form onSubmit={handleSaveProfile} className="space-y-3">
+            <input
+              type="text"
+              value={user.first_name}
+              onChange={(e) => setUser({ ...user, first_name: e.target.value })}
+              placeholder="Firstname"
+              className="w-full px-4 py-4 rounded-2xl text-base bg-gray-100"
+            />
+
+            <input
+              type="text"
+              value={user.last_name}
+              onChange={(e) => setUser({ ...user, last_name: e.target.value })}
+              placeholder="Surname"
+              className="w-full px-4 py-4 rounded-2xl text-base bg-gray-100"
+            />
+
+            <input
+              type="email"
+              value={user.email}
+              onChange={(e) => setUser({ ...user, email: e.target.value })}
+              placeholder="Email Address"
+              className="w-full px-4 py-4 rounded-2xl text-base bg-gray-100"
+            />
+
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="New Password (optional)"
+              className="w-full px-4 py-4 rounded-2xl text-base bg-gray-100"
+            />
+
+            <button
+              type="submit"
+              className="w-full bg-black text-white py-4 rounded-2xl mt-6 cursor-pointer"
+            >
+              Save Changes
+            </button>
+          </form>
         </div>
-      </>
-    );
+      </div>
+    </>
+  );
 }
