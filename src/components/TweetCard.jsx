@@ -27,40 +27,32 @@ export default function TweetCard({ tweet, onLikeToggle }) {
         <div className="w-10 h-10 rounded-full overflow-clip">
           <img
             src={
-              tweet.user.profile_picture ??
-              import.meta.env.VITE_DEFAULT_PROFILE_PICTURE
+              tweet.user.profile_picture_url
             }
             alt="Profile"
           />
         </div>
         <div className="flex-1">
-          <div className="flex justify-between items-center">
+          <div>
             <div className="text-sm inter-semibold">
               {tweet.user.first_name} {tweet.user.last_name}
             </div>
-            <div className="text-sm inter-regular text-gray-400">
+            <div className="text-xs inter-regular">
               {timeAgo(tweet.created_at)}
             </div>
           </div>
-          <p className="mt-2 text-base inter-regular">{tweet.body}</p>
-          <div className="mt-3 flex items-center gap-4 text-sm text-gray-600">
-            <button
-              onClick={toggle}
-              className="flex items-center cursor-pointer gap-2"
-            >
-              {liked ? (
-                <Heart
-                  strokeColor="red"
-                  fillColor="red"
-                />
-              ) : (
-                <Heart />
-              )}
-
-              <span className="inter-semibold text-sm">{likesCount}</span>
-            </button>
-          </div>
         </div>
+      </div>
+      <p className="mt-2 text-base inter-regular">{tweet.body}</p>
+      <div className="mt-3 flex items-center gap-4 text-sm text-gray-600">
+        <button
+          onClick={toggle}
+          className="flex items-center cursor-pointer gap-2"
+        >
+          {liked ? <Heart strokeColor="red" fillColor="red" /> : <Heart />}
+
+          <span className="inter-semibold text-sm">{likesCount}</span>
+        </button>
       </div>
     </div>
   );

@@ -1,9 +1,11 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Logout from "./svg/Logout";
+import { useUser } from "../context/UserContext";
 
 export default function Navbar() {
 
+  const { user } = useUser();
   const navigate = useNavigate();
 
   function handleLogout() {
@@ -18,11 +20,21 @@ export default function Navbar() {
       </Link>
       <div className="flex items-center gap-4">
         <Link to="/profile">
-          Profile
+          <div className="w-10 h-10 rounded-full overflow-clip">
+            <img
+              src={
+                user?.profile_picture_url
+              }
+              alt="Profile"
+            />
+          </div>
         </Link>
-        <button onClick={handleLogout} className="flex items-center cursor-pointer">
-          <Logout />&nbsp;
-          Logout
+        <button
+          onClick={handleLogout}
+          className="flex items-center cursor-pointer"
+        >
+          <Logout />
+          &nbsp; Logout
         </button>
       </div>
     </div>
