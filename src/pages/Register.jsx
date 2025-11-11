@@ -67,7 +67,7 @@ export default function Register() {
 
           {error && <div className="text-red-500 text-sm">{error}</div>}
 
-          <button className="w-full bg-black text-white py-4 rounded-2xl mt-10">
+          <button className="w-full bg-black text-white py-4 rounded-2xl mt-10 cursor-pointer">
             Create Account
           </button>
 
