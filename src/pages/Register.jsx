@@ -29,50 +29,55 @@ export default function Register() {
 
   return (
     <div className="flex items-center justify-center h-screen">
-      <div className="w-full max-w-md bg-white p-8 rounded shadow">
-        <h2 className="text-center font-semibold mb-4">Sign up with Email</h2>
+      <div className="w-full max-w-lg bg-white p-8">
+        <h2 className="text-center text-3xl poppins-bold mb-10">
+          Sign up with Email
+        </h2>
 
         <form onSubmit={submit} className="space-y-3">
           <input
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
             placeholder="Firstname"
-            className="w-full px-4 py-2 rounded bg-gray-100"
+            className="w-full px-4 py-4 rounded-2xl text-base bg-gray-100"
           />
           <input
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
-            placeholder="Lastname"
-            className="w-full px-4 py-2 rounded bg-gray-100"
+            placeholder="Surname"
+            className="w-full px-4 py-4 rounded-2xl text-base bg-gray-100"
           />
           <input
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Email Address"
             type="email"
-            className="w-full px-4 py-2 rounded bg-gray-100"
+            className="w-full px-4 py-4 rounded-2xl text-base bg-gray-100"
           />
           <input
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
             type="password"
-            className="w-full px-4 py-2 rounded bg-gray-100"
+            className="w-full px-4 py-4 rounded-2xl text-base bg-gray-100"
           />
 
           {error && <div className="text-red-500 text-sm">{error}</div>}
 
-          <button className="w-full bg-black text-white py-2 rounded">
+          <button className="w-full bg-black text-white py-4 rounded-2xl mt-10">
             Create Account
           </button>
 
-          <div className="text-center text-xs text-gray-500">
+          <div className="text-center text-sm text-gray-500">
             By signing up you agree to our Terms & Conditions.
           </div>
 
-          <Link to="/login" className="block text-center text-sm text-gray-600">
-            Have an account already? Log in
-          </Link>
+          <div className="block text-center text-sm text-gray-500 mt-10">
+              Have an account already?{" "}
+              <Link to="/login" className="text-black">
+                Log in
+              </Link>
+          </div>
         </form>
       </div>
     </div>

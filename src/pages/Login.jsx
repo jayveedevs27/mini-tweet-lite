@@ -22,9 +22,11 @@ export default function Login() {
 
   return (
     <div className="flex items-center justify-center h-screen">
-      <div className="w-full max-w-md bg-white p-8 rounded shadow">
-        <h2 className="text-center font-semibold mb-4">Welcome to MiniTweet</h2>
-        <p className="text-center text-sm text-gray-500 mb-6">
+      <div className="w-full max-w-lg bg-white p-8">
+        <h2 className="text-center text-3xl poppins-bold mb-3">
+          Welcome to MiniTweet
+        </h2>
+        <p className="text-center text-base mb-10">
           Connect with friends in 280 characters or less
         </p>
 
@@ -33,24 +35,24 @@ export default function Login() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Email or username"
-            className="w-full px-4 py-2 rounded bg-gray-100"
+            className="w-full px-4 py-4 rounded-2xl text-base bg-gray-100"
           />
           <input
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
             type="password"
-            className="w-full px-4 py-2 rounded bg-gray-100"
+            className="w-full px-4 py-4 rounded-2xl text-base bg-gray-100"
           />
 
-          {error && <div className="text-red-500 text-sm">{error}</div>}
+          {error && <div className="text-red-500 poppins-regular text-sm">{error}</div>}
 
-          <button className="w-full bg-black text-white py-2 rounded cursor-pointer">
+          <button className="w-full bg-black text-white text-base py-4 rounded-2xl cursor-pointer mt-10">
             Log in
           </button>
           <Link
             to="/register"
-            className="block text-center border rounded py-2 cursor-pointer"
+            className="block text-center text-base border rounded-2xl py-4 cursor-pointer"
           >
             Create Account
           </Link>

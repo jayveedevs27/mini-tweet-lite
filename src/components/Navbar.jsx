@@ -11,15 +11,15 @@ export default function Navbar() {
   }
 
   return (
-    <div className="bg-white p-4 flex justify-between items-center shadow">
-      <Link to="/" className="font-bold">
+    <div className="bg-white py-4 px-10 flex justify-between items-center">
+      <Link to="/" className="text-2xl poppins-bold">
         MiniTweet
       </Link>
       <div className="flex items-center gap-4">
-        <Link to="/profile" className="text-sm">
+        <Link to="/profile">
           Profile
         </Link>
-        <button onClick={handleLogout} className="text-sm cursor-pointer">
+        <button onClick={handleLogout} className="cursor-pointer">
           Logout
         </button>
       </div>

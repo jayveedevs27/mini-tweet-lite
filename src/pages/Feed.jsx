@@ -28,7 +28,6 @@ export default function Feed() {
 
   return (
     <div className="min-h-screen">
-
       <Navbar />
 
       <div className="max-w-lg mx-auto grid grid-cols-1 gap-6 mt-8">
