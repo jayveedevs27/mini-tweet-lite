@@ -1,4 +1,9 @@
-export default function Heart({ width = 18, height=16, fillColor = "none", strokeColor = "black" }) {
+export default function Heart({
+  width = 20,
+  height = 18,
+  fillColor = "none",
+  strokeColor = "black",
+}) {
   return (
     <svg
       width={width}

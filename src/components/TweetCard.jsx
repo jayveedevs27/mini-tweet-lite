@@ -49,9 +49,12 @@ export default function TweetCard({ tweet, onLikeToggle }) {
               className="flex items-center cursor-pointer gap-2"
             >
               {liked ? (
-                <Heart width={20} height={18} strokeColor="red" fillColor="red" />
+                <Heart
+                  strokeColor="red"
+                  fillColor="red"
+                />
               ) : (
-                <Heart width={20} height={18} strokeColor="black" fillColor="none" />
+                <Heart />
               )}
 
               <span className="inter-semibold text-sm">{likesCount}</span>
