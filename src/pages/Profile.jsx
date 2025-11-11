@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import Navbar from "../components/Navbar";
+import api from "../api";
 
 export default function Profile() {
   const [user, setUser] = useState({
@@ -27,8 +28,8 @@ export default function Profile() {
 
     try {
       setLoading(true);
-      const response = await axios.post(
-        "http://localhost:8000/api/profile/upload",
+      const response = await api.post(
+        "/profile/upload",
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
