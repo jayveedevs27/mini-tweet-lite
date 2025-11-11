@@ -12,7 +12,9 @@ export default function Navbar() {
 
   return (
     <div className="bg-white p-4 flex justify-between items-center shadow">
-      <div className="font-bold">MiniTweet</div>
+      <Link to="/" className="font-bold">
+        MiniTweet
+      </Link>
       <div className="flex items-center gap-4">
         <Link to="/profile" className="text-sm">
           Profile
