@@ -1,4 +1,5 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { renderWithUser } from "../../utils/testUtils";
+import { screen, fireEvent, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { vi } from "vitest";
 import TweetCard from "../TweetCard";
@@ -25,20 +26,20 @@ describe("TweetCard", () => {
   };
 
   test("renders tweet content and author", () => {
-    render(<TweetCard tweet={baseTweet} />);
+    renderWithUser(<TweetCard tweet={baseTweet} />);
     expect(screen.getByText("Jayvee Salango")).toBeInTheDocument();
     expect(screen.getByText("Hello world")).toBeInTheDocument();
   });
 
   test("displays initial likes count", () => {
-    render(<TweetCard tweet={baseTweet} />);
+    renderWithUser(<TweetCard tweet={baseTweet} />);
     expect(screen.getByText("2")).toBeInTheDocument();
   });
 
   test("calls API and toggles like", async () => {
     api.post.mockResolvedValueOnce({ data: { liked: true, likes_count: 3 } });
     const onLikeToggle = vi.fn();
-    render(<TweetCard tweet={baseTweet} onLikeToggle={onLikeToggle} />);
+    renderWithUser(<TweetCard tweet={baseTweet} onLikeToggle={onLikeToggle} />);
 
     const button = screen.getByRole("button");
     fireEvent.click(button);
@@ -53,7 +54,7 @@ describe("TweetCard", () => {
   test("handles unlike toggle correctly", async () => {
     api.post.mockResolvedValueOnce({ data: { liked: false, likes_count: 1 } });
     const onLikeToggle = vi.fn();
-    render(
+    renderWithUser(
       <TweetCard
         tweet={{ ...baseTweet, liked_by_me: true, likes_count: 2 }}
         onLikeToggle={onLikeToggle}
@@ -73,7 +74,7 @@ describe("TweetCard", () => {
     const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     api.post.mockRejectedValueOnce(new Error("Network Error"));
 
-    render(<TweetCard tweet={baseTweet} />);
+    renderWithUser(<TweetCard tweet={baseTweet} />);
     fireEvent.click(screen.getByRole("button"));
 
     await waitFor(() => {

@@ -5,11 +5,13 @@ import Heart from "./svg/Heart";
 
 export default function TweetCard({ tweet, onLikeToggle }) {
   const [liked, setLiked] = useState(tweet.liked_by_me || false);
+  const [likesCount, setLikesCount] = useState(tweet.likes_count || 0);
 
   async function toggle() {
     try {
       const { data } = await api.post(`/tweets/${tweet.id}/like`);
       setLiked(data.liked);
+      setLikesCount(data.likes_count);
       onLikeToggle && onLikeToggle(tweet.id, data.liked);
     } catch (err) {
       console.error(err);
@@ -41,9 +43,7 @@ export default function TweetCard({ tweet, onLikeToggle }) {
         >
           {liked ? <Heart strokeColor="red" fillColor="red" /> : <Heart />}
 
-          <span className="inter-semibold text-sm">
-            {tweet.likes_count || 0}
-          </span>
+          <span className="inter-semibold text-sm">{likesCount}</span>
         </button>
       </div>
     </div>
