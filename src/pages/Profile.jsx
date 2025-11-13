@@ -102,8 +102,8 @@ export default function ProfilePage() {
   return (
     <>
       <Navbar />
-      <div className="flex items-center justify-center h-screen bg-gray-50">
-        <div className="w-full max-w-lg bg-white p-8 rounded-2xl shadow-md">
+      <div className="flex items-center justify-center h-screen">
+        <div className="w-full max-w-lg bg-white p-8 rounded-2xl">
           <h2 className="text-center text-3xl font-bold mb-10 poppins-bold">
             My Profile
           </h2>
