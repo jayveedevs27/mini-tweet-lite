@@ -54,7 +54,9 @@ export default function ProfilePage() {
 
       let normalizedUrl = returnedUrl;
       if (returnedUrl && !/^https?:\/\//i.test(returnedUrl)) {
-        const apiBase = import.meta.env.VITE_API_URL || "http://localhost:8000";
+        const apiBase =
+          import.meta.env.VITE_API_BASE_URL ||
+          "http://mini-tweet-lite-api.test/api";
         normalizedUrl = returnedUrl.startsWith("/")
           ? `${apiBase}${returnedUrl}`
           : `${apiBase}/storage/${returnedUrl}`;
